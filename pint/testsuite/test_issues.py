@@ -1489,6 +1489,15 @@ def test_negative_magnitude_scientific_notation_formatting():
     assert f"{2.3e-6 * ureg.m:~H}" == "2.3×10<sup>-6</sup> m"
     assert f"{-2.3e-6 * ureg.m:~H}" == "-2.3×10<sup>-6</sup> m"
 
+    # An array magnitude formats as one bracketed string holding several numbers, so it
+    # must keep falling through unchanged: the exponent substitution builds its
+    # replacement from the first match and would otherwise stamp that one exponent onto
+    # every element (1e+10 rendering as 1×10⁻¹⁶).
+    import numpy as np
+
+    arr = np.array([1e-16, 1.0, 1e10]) * ureg.m
+    assert f"{arr:g~P}" == "[1e-16 1 1e+10] m"
+
 
 def test_issue2305():
     # Offset (affine) conversion of a Decimal magnitude must not raise

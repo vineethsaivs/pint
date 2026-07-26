@@ -40,7 +40,7 @@ if TYPE_CHECKING:
     from ...facets.measurement import Measurement
     from ...facets.plain import PlainQuantity, PlainUnit
 
-_EXP_PATTERN = re.compile(r"([0-9]\.?[0-9]*)e(-?)\+?0*([0-9]+)")
+_EXP_PATTERN = re.compile(r"(-?[0-9]\.?[0-9]*)e(-?)\+?0*([0-9]+)")
 
 
 class HTMLFormatter(BaseFormatter):
@@ -76,7 +76,7 @@ class HTMLFormatter(BaseFormatter):
                         + "</pre>"
                     )
 
-        m = _EXP_PATTERN.search(mstr)
+        m = _EXP_PATTERN.match(mstr)
         _exp_formatter = lambda s: f"<sup>{s}</sup>"
 
         if m:

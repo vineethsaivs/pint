@@ -45,7 +45,7 @@ if TYPE_CHECKING:
     from ...registry import UnitRegistry
 
 
-_EXP_PATTERN = re.compile(r"([0-9]\.?[0-9]*)e(-?)\+?0*([0-9]+)")
+_EXP_PATTERN = re.compile(r"(-?[0-9]\.?[0-9]*)e(-?)\+?0*([0-9]+)")
 
 
 class BaseFormatter:
@@ -307,7 +307,7 @@ class PrettyFormatter(BaseFormatter):
             else:
                 mstr = format_number(magnitude)
 
-            m = _EXP_PATTERN.search(mstr)
+            m = _EXP_PATTERN.match(mstr)
 
             if m:
                 exp = int(m.group(2) + m.group(3))
